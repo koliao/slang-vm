@@ -7,21 +7,30 @@ import IfNotZeroGoto from './components/IfNotZeroGoto/IfNotZeroGoto'
 import Button from './components/Button/Button'
 import { useStyles } from './style'
 
+export enum InstructionType {
+    AddOne,
+    SubOne,
+    IfNotZeroGoto,
+}
+
+interface Instruction {
+    label?: string,
+    type: InstructionType,
+    variable: string,
+    jumpLabel?: string
+}
+
 function App() {
   const vm = new VM()
-  vm.addInstruction({
-    type: InstructionType.AddOne,
-    variable: "X1",
-  })
-  vm.addInstruction({
-    type: InstructionType.SubOne,
-    variable: "X2",
-  })
-  vm.addInstruction({
-    type: InstructionType.IfNotZeroGoto,
-    variable: "X1",
-    jumpLabel: "L",
-  })
+
+  const [ state, setState ] = useState({});
+  const [ code, setCode ] = useState([]);
+  const [ pc, setPC ] = useState(0);
+
+  const addInstruction = ( instruction: Instruction ) => {
+    code.push(instruction)
+    setCode([...code])
+  }
 
   const TypeToComponent = {
     [InstructionType.AddOne]: AddOne,
@@ -35,7 +44,7 @@ function App() {
     <>
       <div className={classes.root} >
         <div className={classes.code} >
-          {vm.code.map( ( instruction, i ) => (
+          {code.map( ( instruction, i ) => (
             TypeToComponent[instruction.type]( {
               variable: instruction.variable,
               label: (instruction.jumpLabel as string),
@@ -49,10 +58,25 @@ function App() {
           <Button label="Step" />
           <Button label="Run" />
           <Button
-            label="Add 'Add one'"
-            onClick={() => vm.addInstruction({
+            label="V <- V + 1"
+            onClick={() => addInstruction({
               type: InstructionType.AddOne,
-              variable: "X6",
+              variable: "X1",
+            })}
+          />
+          <Button
+            label="V <- V - 1"
+            onClick={() => addInstruction({
+              type: InstructionType.SubOne,
+              variable: "X1",
+            })}
+          />
+          <Button
+            label="IF V != 0 GOTO L"
+            onClick={() => addInstruction({
+              type: InstructionType.IfNotZeroGoto,
+              variable: "X1",
+              jumpLabel: "L",
             })}
           />
         </div>
