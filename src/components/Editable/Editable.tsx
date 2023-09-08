@@ -5,13 +5,14 @@ import { TextInput as MantineTextInput } from "@mantine/core"
 import { useInputState } from '@mantine/hooks';
 
 interface IEditable {
-    name: string,
+    onChange: () => void,
+    name?: string,
 }
 
 const Editable = ( {
+    onChange,
     name,
 }: IEditable ) => {
-    const [ value, setValue ] = useInputState("X1")
     const { classes } = useStyles()
     
     return (
@@ -19,8 +20,8 @@ const Editable = ( {
             styles={classes}
             variant="unstyled"
             size="sm"
-            onChange={setValue}
-            value={value}
+            onChange={onChange}
+            value={name}
         />
     )
 }

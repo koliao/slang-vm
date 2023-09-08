@@ -44,23 +44,27 @@ const App = observer( () => {
 
             return (
               <InstructionComponent
+                instructionProps={{
+                  label: (instruction.jumpLabel as string),
+                  number: i,
+                  isSelected: vm.isLineSelected(i),
+                  isExecuting: vm.isLineExecuting(i),
+                  onClick: () => {},
+                  onJumpLabelChange: vm.onJumpLabelChange,
+                }}
                 variable={instruction.variable}
-                label={instruction.jumpLabel as string}
-                number={i}
-                isSelected={false}
-                onClick={() => {}}
+                onVariableChange={vm.onVariableChange}
+                onLabelChange={vm.onLabelChange}
+                onJumpLabelChange={vm.onJumpLabelChange}
               />
             )
           } ) }
         </div>
         <div className={classes.controls}>
-          <AddOne
-            variable={"X1"}
-            number={0}
-            isSelected
-            onClick={() => {}}
+          <Button
+            label="Step"
+            onClick={vm.step}
           />
-          <Button label="Step" />
           <Button label="Run" />
           <Button
             label="V <- V + 1"

@@ -2,20 +2,17 @@ import Editable from "../Editable/Editable"
 import Instruction, { IInstruction } from "../Instruction/Instruction"
 
 interface ISubOne extends IInstruction {
+    instructionProps: IInstruction,
     variable: string,
 }
 
 const SubOne = ( {
     variable,
-    number,
-    isSelected = false,
-    onClick,
+    instructionProps,
 }: ISubOne ) => {
     return (
         <Instruction
-            number={number}
-            isSelected={isSelected}
-            onClick={onClick}
+            {...instructionProps}
         >
             <Editable name={variable} /> {'<-'} <Editable name={variable} /> - 1
         </Instruction>

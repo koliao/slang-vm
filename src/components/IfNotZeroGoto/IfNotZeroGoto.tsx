@@ -2,6 +2,7 @@ import Instruction, { IInstruction } from "../Instruction/Instruction"
 import Editable from "../Editable/Editable"
 
 interface IIfNotZeroGoto extends IInstruction{
+    instructionProps: IInstruction,
     variable: string,
     label: string,
 }
@@ -9,15 +10,11 @@ interface IIfNotZeroGoto extends IInstruction{
 const IfNotZeroGoto = ( {
     variable,
     label,
-    number,
-    isSelected = false,
-    onClick,
+    instructionProps,
 }: IIfNotZeroGoto ) => {
     return (
         <Instruction
-            number={number}
-            isSelected={isSelected}
-            onClick={onClick}
+            {...instructionProps}
         >
             <Editable name={variable} />
             {"!= 0 GOTO "}

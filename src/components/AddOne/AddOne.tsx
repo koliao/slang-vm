@@ -3,25 +3,35 @@ import { observer } from "mobx-react-lite"
 import { useStyles } from "./style"
 import Editable from "../Editable/Editable"
 
-interface IAddOne extends IInstruction {
+interface IAddOne {
+    instructionProps: IInstruction,
     variable: string,
+    onVariableChange: () => void,
+    onLabelChange: () => void,
 }
 
 const AddOne = ( {
     variable,
-    number,
-    isSelected,
-    onClick,
+    onVariableChange,
+    onLabelChange,
+    instructionProps,
 }: IAddOne ) => {
     const {classes} = useStyles()
 
     return (
         <Instruction
-            number={number}
-            isSelected={isSelected}
-            onClick={onClick}
+            {...instructionProps}
         >
-            <Editable name={variable} /> {'<-'} <Editable name={variable}/> + 1
+            <Editable
+                onChange={(event) => onVariableChange(instructionProps.number, event.target.value)}
+                name={variable}
+            />
+            {'<-'}
+            <Editable
+                onChange={(event) => onVariableChange(instructionProps.number, event.target.value)}
+                name={variable}
+            />
+            + 1
         </Instruction>
     )
 }
