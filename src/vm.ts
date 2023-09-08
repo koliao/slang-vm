@@ -1,3 +1,5 @@
+import { makeAutoObservable } from "mobx"
+
 export enum InstructionType {
     AddOne,
     SubOne,
@@ -22,9 +24,11 @@ export default class VM {
        this.state = {} 
        this.code = []
        this.pc = 0
+
+       makeAutoObservable(this)
     }
 
-    addInstruction(instruction: Instruction) {
+    addInstruction = (instruction: Instruction) => {
         this.code.push(instruction)
         console.log(this.code.length)
     }

@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { observer } from "mobx-react-lite"
 import { useStyles } from "./style"
 
 export interface IInstruction {
@@ -19,12 +20,14 @@ const Instruction = ({
     return (
         <div
             onClick={onClick}
-            className={classes.instruction}
+            className={classes.line}
         >
             {number}
-            {children}
+            <div className={classes.instruction}>
+                {children}
+            </div>
         </div>
     )
 }
 
-export default Instruction
+export default observer( Instruction )
