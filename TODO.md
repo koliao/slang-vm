@@ -1,8 +1,11 @@
-- [ ] Layout basico
+# TODO
 
-- VM
-- Pensar como modificar, con un text input y parsear?, solo permitir como un dropdown?
-- Instrucciones
-- Corrida
-- Step
-- Variables  y estado
+- [ ] Provide initial variables
+- [ ] Run until end
+- [ ] Run and breakpoints
+- [ ] Display output `Y` value
+- [ ] Delete instructions
+- [ ] Add instruction between other 2
+- [ ] Move instructions
+- [ ] Shortcuts
+- [ ] Highlight last modified variable and changed value
