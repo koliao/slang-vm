@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { MantineProvider } from '@mantine/core';
 import { observer } from "mobx-react-lite"
 import VM, { InstructionType } from "./vm"
@@ -9,20 +8,6 @@ import IfNotZeroGoto from './components/IfNotZeroGoto/IfNotZeroGoto'
 import Button from './components/Button/Button'
 import { useStyles } from './style'
 import WatchWindow from './components/WatchWindow/WatchWindow';
-
-export enum InstructionType {
-    AddOne,
-    SubOne,
-    IfNotZeroGoto,
-}
-
-interface Instruction {
-    label?: string,
-    type: InstructionType,
-    variable: string,
-    jumpLabel?: string
-}
-
 
 const vm = new VM()
 
@@ -45,16 +30,16 @@ const App = observer( () => {
             return (
               <InstructionComponent
                 instructionProps={{
-                  label: (instruction.jumpLabel as string),
+                  label: (instruction.label as string),
                   number: i,
                   isSelected: vm.isLineSelected(i),
                   isExecuting: vm.isLineExecuting(i),
                   onClick: () => {},
-                  onJumpLabelChange: vm.onJumpLabelChange,
+                  onLabelChange: vm.onLabelChange,
                 }}
                 variable={instruction.variable}
+                jumpLabel={instruction.jumpLabel as string}
                 onVariableChange={vm.onVariableChange}
-                onLabelChange={vm.onLabelChange}
                 onJumpLabelChange={vm.onJumpLabelChange}
               />
             )
@@ -85,6 +70,7 @@ const App = observer( () => {
             onClick={() => vm.addInstruction({
               type: InstructionType.IfNotZeroGoto,
               variable: "X1",
+              label: "",
               jumpLabel: "L",
             })}
           />

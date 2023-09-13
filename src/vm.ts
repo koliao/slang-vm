@@ -14,9 +14,7 @@ interface Instruction {
 }
 
 export default class VM {
-    state: {
-
-    }
+    state: Record<string, number>
     code: Instruction[]
     pc: number
 
@@ -30,7 +28,7 @@ export default class VM {
 
     addInstruction = (instruction: Instruction) => {
         this.code.push(instruction)
-        this.state[instruction.variable] = 0
+        this.state[instruction.variable] = this.state[instruction.variable] || 0
     }
 
     step = () => {
@@ -39,7 +37,7 @@ export default class VM {
         console.table(Object.entries(this.state))
     }
 
-    isLineSelected = (line: number) => {
+    isLineSelected = (_: number) => {
         return false
     }
 
@@ -47,17 +45,17 @@ export default class VM {
         return this.pc === line
     }
 
-    onVariableChange = (instructionNumber, value) => {
+    onVariableChange = (instructionNumber: number, value: string) => {
         // TODO add confirm that only gets executed on blur event
         this.code[instructionNumber].variable = value
         this.state[value] = this.state[value] || 0
     }
 
-    onLabelChange = (instructionNumber, value) => {
+    onLabelChange = (instructionNumber: number, value: string) => {
         this.code[instructionNumber].label = value
     }
 
-    onJumpLabelChange = (instructionNumber, value) => {
+    onJumpLabelChange = (instructionNumber: number, value: string) => {
         this.code[instructionNumber].jumpLabel = value
     }
 
@@ -93,14 +91,13 @@ export default class VM {
     }
 
     private ifNotZeroGotoHandler = () => {
-        const instruction = this.code[this.pc]
-        const variable = this.state[instruction.variable]
-        const jumpLabel = this.state[instruction.jumpLabel]
+        const currentInstruction = this.code[this.pc]
+        const variable = this.state[currentInstruction.variable]
 
-        if(this.state[variable] !== 0) {
-            const jumpInstruction = this.code.findIndex( inst => inst.label === jumpLabel )
-            if(jumpInstruction >= 0) {
-                this.pc = this.code.indexOf(jumpInstruction) - 1
+        if(variable !== 0) {
+            const jumpInstructionIndex = this.code.findIndex( inst => inst.label === currentInstruction.jumpLabel )
+            if(jumpInstructionIndex >= 0) {
+                this.pc = jumpInstructionIndex - 1
             } else {
                 this.pc = this.code.length - 1
             }

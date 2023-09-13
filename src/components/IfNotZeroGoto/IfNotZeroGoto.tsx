@@ -1,26 +1,37 @@
+import { observer } from "mobx-react-lite"
 import Instruction, { IInstruction } from "../Instruction/Instruction"
 import Editable from "../Editable/Editable"
 
-interface IIfNotZeroGoto extends IInstruction{
+interface IIfNotZeroGoto {
     instructionProps: IInstruction,
     variable: string,
-    label: string,
+    jumpLabel: string,
+    onVariableChange: (instructionNumber: number, variable: string) => void,
+    onJumpLabelChange: (instruction: number, jumpLabel: string) => void,
 }
 
 const IfNotZeroGoto = ( {
-    variable,
-    label,
     instructionProps,
+    variable,
+    jumpLabel,
+    onVariableChange,
+    onJumpLabelChange,
 }: IIfNotZeroGoto ) => {
     return (
         <Instruction
             {...instructionProps}
         >
-            <Editable name={variable} />
+            <Editable
+                name={variable}
+                onChange={( newValue ) => onVariableChange(instructionProps.number, newValue)}
+            />
             {"!= 0 GOTO "}
-            <Editable name={label}/>
+            <Editable
+                name={jumpLabel}
+                onChange={( newValue ) => onJumpLabelChange(instructionProps.number,  newValue)}
+            />
         </Instruction>
     )
 }
 
-export default IfNotZeroGoto
+export default observer( IfNotZeroGoto )

@@ -9,7 +9,7 @@ export interface IInstruction {
  isSelected?: boolean,
  isExecuting?: boolean,
  onClick: () => void,
- onJumpLabelChange: () => void,
+ onLabelChange: (instructionNumber: number, newValue: string) => void,
  children?: ReactNode,
 }
 
@@ -19,7 +19,7 @@ const Instruction = ({
     isSelected = false,
     isExecuting = false,
     onClick,
-    onJumpLabelChange,
+    onLabelChange,
     children,
 } : IInstruction ) => {
     const { classes } = useStyles( { isSelected, isExecuting } )
@@ -32,7 +32,7 @@ const Instruction = ({
             {number}
             <div>
                 <Editable
-                    onChange={(event) => onJumpLabelChange(number, event.target.value)}
+                    onChange={( newValue ) => onLabelChange(number,  newValue)}
                     name={label}
                 />
             </div>

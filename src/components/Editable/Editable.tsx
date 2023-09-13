@@ -1,11 +1,9 @@
 import { observer } from "mobx-react-lite"
-import { useState } from "react"
 import { useStyles } from "./style"
 import { TextInput as MantineTextInput } from "@mantine/core"
-import { useInputState } from '@mantine/hooks';
 
 interface IEditable {
-    onChange: () => void,
+    onChange: ( newValue: string ) => void,
     name?: string,
 }
 
@@ -20,7 +18,7 @@ const Editable = ( {
             styles={classes}
             variant="unstyled"
             size="sm"
-            onChange={onChange}
+            onChange={( event ) => onChange( event.target.value )}
             value={name}
         />
     )
