@@ -20,60 +20,70 @@ const App = observer( () => {
 
   const { classes } = useStyles()
 
+  const Code = observer( () => (
+    <div className={classes.code} >
+      {vm.code.map( ( instruction, i ) => {
+        const InstructionComponent = TypeToComponent[instruction.type]
+
+        return (
+          <InstructionComponent
+            instructionProps={{
+              label: (instruction.label as string),
+              number: i,
+              isSelected: vm.isLineSelected(i),
+              isExecuting: vm.isLineExecuting(i),
+              onClick: () => {},
+              onLabelChange: vm.onLabelChange,
+            }}
+            variable={instruction.variable}
+            jumpLabel={instruction.jumpLabel as string}
+            onVariableChange={vm.onVariableChange}
+            onJumpLabelChange={vm.onJumpLabelChange}
+          />
+        )
+      } ) }
+    </div>
+  ) )
+
+  const Controls = observer( () =>
+    <div className={classes.controls}>
+      <Button
+        label="Step"
+        onClick={vm.step}
+      />
+      <Button label="Run" />
+      <Button
+        label="V <- V + 1"
+        onClick={() => vm.addInstruction({
+          type: InstructionType.AddOne,
+          variable: "X1",
+        })}
+      />
+      <Button
+        label="V <- V - 1"
+        onClick={() => vm.addInstruction({
+          type: InstructionType.SubOne,
+          variable: "X1",
+        })}
+      />
+      <Button
+        label="IF V != 0 GOTO L"
+        onClick={() => vm.addInstruction({
+          type: InstructionType.IfNotZeroGoto,
+          variable: "X1",
+          label: "",
+          jumpLabel: "L",
+        })}
+      />
+    </div>
+  )
+
   return (
     <MantineProvider theme={{colorScheme: "dark"}}>
       <div className={classes.root} >
-        <div className={classes.code} >
-          {vm.code.map( ( instruction, i ) => {
-            const InstructionComponent = TypeToComponent[instruction.type]
-
-            return (
-              <InstructionComponent
-                instructionProps={{
-                  label: (instruction.label as string),
-                  number: i,
-                  isSelected: vm.isLineSelected(i),
-                  isExecuting: vm.isLineExecuting(i),
-                  onClick: () => {},
-                  onLabelChange: vm.onLabelChange,
-                }}
-                variable={instruction.variable}
-                jumpLabel={instruction.jumpLabel as string}
-                onVariableChange={vm.onVariableChange}
-                onJumpLabelChange={vm.onJumpLabelChange}
-              />
-            )
-          } ) }
-        </div>
-        <div className={classes.controls}>
-          <Button
-            label="Step"
-            onClick={vm.step}
-          />
-          <Button label="Run" />
-          <Button
-            label="V <- V + 1"
-            onClick={() => vm.addInstruction({
-              type: InstructionType.AddOne,
-              variable: "X1",
-            })}
-          />
-          <Button
-            label="V <- V - 1"
-            onClick={() => vm.addInstruction({
-              type: InstructionType.SubOne,
-              variable: "X1",
-            })}
-          />
-          <Button
-            label="IF V != 0 GOTO L"
-            onClick={() => vm.addInstruction({
-              type: InstructionType.IfNotZeroGoto,
-              variable: "X1",
-              label: "",
-              jumpLabel: "L",
-            })}
-          />
+        <div>
+          <Code />
+          <Controls />
         </div>
         <WatchWindow vm={vm}/>
       </div>

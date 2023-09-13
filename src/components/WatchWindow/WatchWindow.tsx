@@ -1,4 +1,3 @@
-import { ReactNode } from "react"
 import { observer } from "mobx-react-lite"
 import { useStyles } from "./style"
 import VM from "../../vm"
@@ -7,16 +6,20 @@ export interface IWatchWindow {
  vm: VM,
 }
 
-const WatchWindow = ({
+const WatchWindow = ( {
     vm,
 } : IWatchWindow ) => {
     const { classes } = useStyles()
 
     return (
-        <div
-            className={classes.watchWindow}
-        >
-        </div>
+        <table className={classes.watchWindow}>
+            {Object.entries(vm.state).map( ( [ key, value ] ) => (
+                <tr className={classes.row}>
+                    <td>{key}</td>
+                    <td>{value}</td>
+                </tr>
+            ) ) }
+        </table>
     )
 }
 
