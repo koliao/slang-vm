@@ -5,13 +5,17 @@ import { TextInput as MantineTextInput } from "@mantine/core"
 interface IEditable {
     onChange: ( newValue: string ) => void,
     name?: string,
+    color?: string,
+    backgroundColor?: string,
 }
 
 const Editable = ( {
     onChange,
     name,
+    color,
+    backgroundColor = "#303030",
 }: IEditable ) => {
-    const { classes } = useStyles()
+    const { classes } = useStyles( { backgroundColor, color } )
     
     return (
         <MantineTextInput

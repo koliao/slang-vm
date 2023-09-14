@@ -37,7 +37,7 @@ const App = observer( () => {
             }}
             variable={instruction.variable}
             jumpLabel={instruction.jumpLabel as string}
-            onVariableChange={vm.onVariableChange}
+            onVariableChange={vm.onVariableNameChange}
             onJumpLabelChange={vm.onJumpLabelChange}
           />
         )

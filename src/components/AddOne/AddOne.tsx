@@ -18,12 +18,12 @@ const AddOne = ( {
             {...instructionProps}
         >
             <Editable
-                onChange={( newValue ) => onVariableChange(instructionProps.number, newValue)}
+                onChange={( newValue: string ) => onVariableChange(instructionProps.number, newValue)}
                 name={variable}
             />
             {'<-'}
             <Editable
-                onChange={( newValue ) => onVariableChange(instructionProps.number, newValue)}
+                onChange={( newValue: string ) => onVariableChange(instructionProps.number, newValue)}
                 name={variable}
             />
             + 1

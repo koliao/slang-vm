@@ -16,8 +16,10 @@ const Button = ( {
         <MantineButton
             styles={classes}
             onClick={onClick}
+            color="gray"
+            variant="light"
         >
-	    {label}
+            {label}
         </MantineButton>
     )
 }

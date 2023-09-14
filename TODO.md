@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] Provide initial variables
+- [X] Provide initial variables
 - [ ] Run until end
 - [ ] Run and breakpoints
 - [ ] Display output `Y` value

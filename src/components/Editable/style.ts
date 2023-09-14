@@ -1,6 +1,12 @@
 import { createStyles } from '@mantine/core';
 
-export const useStyles = createStyles( () => ( {
+export const useStyles = createStyles( ( _: any, {
+    color,
+    backgroundColor,
+}: {
+    color?: string,
+    backgroundColor?: string,
+} ) => ( {
 	root: {
 		display: "flex",
 		alignItems: "center",
@@ -11,12 +17,12 @@ export const useStyles = createStyles( () => ( {
         flexShrink: 1,
         paddingLeft: 8,
         "&:hover": {
-            backgroundColor: "rgba(255, 150, 0, 0.1)",
+            backgroundColor: backgroundColor || "rgba(255, 150, 0, 0.1)",
             borderRadius: 4,
         },
 	},
     input: {
-        color: "orange",
+        color: color || "orange",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

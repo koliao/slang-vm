@@ -23,12 +23,25 @@ export default class VM {
        this.code = []
        this.pc = 0
 
+       this.createInitialVariables()
+
        makeAutoObservable(this)
     }
 
     addInstruction = (instruction: Instruction) => {
         this.code.push(instruction)
         this.state[instruction.variable] = this.state[instruction.variable] || 0
+    }
+
+    addVariable = () => {
+        const inputVariables = Object.keys(this.state).filter(
+            i => i[0] === "X"
+        ).map( v => Number( v.slice(1) ) )
+        const maxInputVariable = inputVariables.length === 0 ? 0 : Math.max(...inputVariables)
+        if(maxInputVariable >= 0) {
+            const newVariable = `X${maxInputVariable + 1}`
+            this.state[newVariable] = 0
+        }
     }
 
     step = () => {
@@ -45,10 +58,15 @@ export default class VM {
         return this.pc === line
     }
 
-    onVariableChange = (instructionNumber: number, value: string) => {
+    onVariableNameChange = (instructionNumber: number, value: string) => {
         // TODO add confirm that only gets executed on blur event
         this.code[instructionNumber].variable = value
         this.state[value] = this.state[value] || 0
+    }
+
+    onVariableValueChange = (variableName: string, newValue: number) => {
+        if(newValue >= 0)
+            this.state[variableName] = newValue
     }
 
     onLabelChange = (instructionNumber: number, value: string) => {
@@ -57,6 +75,10 @@ export default class VM {
 
     onJumpLabelChange = (instructionNumber: number, value: string) => {
         this.code[instructionNumber].jumpLabel = value
+    }
+
+    private createInitialVariables() {
+        this.state["Y"] = 0
     }
 
     private executeCurrentLine = () => {
